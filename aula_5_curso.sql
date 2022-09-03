@@ -34,9 +34,10 @@ id INT NOT NULL AUTO_INCREMENT
 INSERT INTO estado (id,nome,sigla,ativo,data_cadastro) VALUES (DEFAULT,'PARANA','PR','S','2022-09-03');
 INSERT INTO estado (id,nome,sigla,ativo,data_cadastro) VALUES (DEFAULT,'SÃO PAULO','SP',DEFAULT,DEFAULT);
 INSERT INTO estado (nome,sigla) VALUES ('MATO GROSSO', 'MT');
+-- INSERT INTO estado (nome) VALUES ('PARANA'); teste atividade
 
 INSERT INTO cidade (nome,estado_id) VALUES ('CURITIBA', 1);
-
+-- INSERT INTO cidade (nome,estado_id) VALUES ('PARANAVAÍ',5); teste atividade
 INSERT INTO cidade (nome,estado_id) VALUES ('SÃO PAULO', 2);
 
 SELECT * FROM estado;
