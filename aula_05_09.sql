@@ -48,41 +48,50 @@ id INT NOT NULL AUTO_INCREMENT UNIQUE
 ,tipo_fruta VARCHAR(30) NOT NULL  
 ,produtos_utilizados VARCHAR(300) NOT NULL  
 ,cnpj VARCHAR(20) NOT NULL  UNIQUE
+,cidade_id INT NOT NULL 
+,CONSTRAINT pk_fornecedo PRIMARY KEY (id)
+,CONSTRAINT fk_fornecedo_cidade FOREIGN KEY (cidade_id) REFERENCES cidade (id)
 );
 
-INSERT INTO fornecedor (nome,tipo_fruta,produtos_utilizados,cnpj) VALUES ('FAZENDA DO SEU ZÉ', 'LARANJA PERA', 'PROFF', '12.345.678/9101-23');
-INSERT INTO fornecedor (nome,tipo_fruta,produtos_utilizados,cnpj) VALUES ('FAZENDA DO SEU FELIPE', 'LARANJA BAHIA', 'PROFF', '05.355.664/0001-97');
-INSERT INTO fornecedor (nome,tipo_fruta,produtos_utilizados,cnpj) VALUES ('FAZENDA DO SEU JORGE', 'LARANJA LIMA', 'PROFF', '60.126.081/0001-00');
+INSERT INTO fornecedor (nome,tipo_fruta,produtos_utilizados,cnpj,cidade_id) VALUES ('FAZENDA DO SEU ZÉ', 'LARANJA PERA', 'PROFF', '12.345.678/9101-23',1);
+INSERT INTO fornecedor (nome,tipo_fruta,produtos_utilizados,cnpj,cidade_id) VALUES ('FAZENDA DO SEU FELIPE', 'LARANJA BAHIA', 'PROFF', '05.355.664/0001-97',2);
+INSERT INTO fornecedor (nome,tipo_fruta,produtos_utilizados,cnpj,cidade_id) VALUES ('FAZENDA DO SEU JORGE', 'LARANJA LIMA', 'PROFF', '60.126.081/0001-00',3);
 
 SELECT * FROM fornecedor;
 
 CREATE TABLE transportadora (
-id INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT
+id INT NOT NULL UNIQUE AUTO_INCREMENT
 ,nome VARCHAR(100) NOT NULL
 ,cnpj VARCHAR(20) NOT NULL UNIQUE
+,cidade_id INT NOT NULL 
+,CONSTRAINT pk_transportadora PRIMARY KEY (id)
+,CONSTRAINT fk_transportadora_cidade FOREIGN KEY (cidade_id) REFERENCES cidade (id)
 );
 
-INSERT INTO transportadora (nome,cnpj) VALUES ('TRANSPORTADORA HOT WELLS', '76.520.027/0001-77');
-INSERT INTO transportadora (nome,cnpj) VALUES ('TRANSPORTADORA FAST TRUCK', '09.958.334/0001-47');
-INSERT INTO transportadora (nome,cnpj) VALUES ('TRANSPORTADORA CAMINHAO RAPIDO', '51.219.355/0001-07');
+INSERT INTO transportadora (nome,cnpj,cidade_id) VALUES ('TRANSPORTADORA HOT WELLS', '76.520.027/0001-77',1);
+INSERT INTO transportadora (nome,cnpj,cidade_id) VALUES ('TRANSPORTADORA FAST TRUCK', '09.958.334/0001-47',2);
+INSERT INTO transportadora (nome,cnpj,cidade_id) VALUES ('TRANSPORTADORA CAMINHAO RAPIDO', '51.219.355/0001-07',3);
 
 SELECT * FROM transportadora;
 
 CREATE TABLE fabrica (
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE
+id INT NOT NULL AUTO_INCREMENT UNIQUE
 ,nome VARCHAR(100) NOT NULL 
 ,cnpj VARCHAR(20) NOT NULL UNIQUE
 ,chegada_fruta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+,cidade_id INT NOT NULL 
+,CONSTRAINT pk_fabrica PRIMARY KEY (id)
+,CONSTRAINT fk_fabrica_cidade FOREIGN KEY (cidade_id) REFERENCES cidade (id)
 );
 
-INSERT INTO fabrica (nome, cnpj) VALUES ('FABRICA DE SUCO LARANJA', '80.061.328/0001-57');
-INSERT INTO fabrica (nome, cnpj) VALUES ('FABRICA DE SUCO LARANJINHA', '97.890.249/0001-51');
-INSERT INTO fabrica (nome, cnpj) VALUES ('FABRICA DE SUCO LARANJÃO', '56.348.348/0001-29');
+INSERT INTO fabrica (nome, cnpj,cidade_id) VALUES ('FABRICA DE SUCO LARANJA', '80.061.328/0001-57',1);
+INSERT INTO fabrica (nome, cnpj,cidade_id) VALUES ('FABRICA DE SUCO LARANJINHA', '97.890.249/0001-51',2);
+INSERT INTO fabrica (nome, cnpj,cidade_id) VALUES ('FABRICA DE SUCO LARANJÃO', '56.348.348/0001-29',3);
 
 SELECT * FROM fabrica;
 
 CREATE TABLE processo (
-id INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT
+id INT NOT NULL UNIQUE AUTO_INCREMENT
 ,processo_extracao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ,processo_concentracao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ,processo_resfrigeracao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -95,14 +104,17 @@ INSERT INTO processo (id) VALUES (3);
 SELECT * FROM processo;
 
 CREATE TABLE cliente( 
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE 
+id INT NOT NULL AUTO_INCREMENT UNIQUE 
 ,nome_completo VARCHAR(100) NOT NULL UNIQUE
 ,cnpj VARCHAR(20) NOT NULL UNIQUE
+,cidade_id INT NOT NULL 
+,CONSTRAINT pk_cliente PRIMARY KEY (id)
+,CONSTRAINT fk_cliente_cidade FOREIGN KEY (cidade_id) REFERENCES cidade (id)
 );
 
-INSERT INTO cliente (nome_completo,cnpj) VALUES ('JOSISVALDO JOSIAS DA SILVA','42.963.347/0001-80');
-INSERT INTO cliente (nome_completo,cnpj) VALUES ('GRÉGORY SILVA','65.687.165/0001-29');
-INSERT INTO cliente (nome_completo,cnpj) VALUES ('NELSON SANTOS','59.130.446/0001-83');
+INSERT INTO cliente (nome_completo,cnpj,cidade_id) VALUES ('JOSISVALDO JOSIAS DA SILVA','42.963.347/0001-80',1);
+INSERT INTO cliente (nome_completo,cnpj,cidade_id) VALUES ('GRÉGORY SILVA','65.687.165/0001-29',2);
+INSERT INTO cliente (nome_completo,cnpj,cidade_id) VALUES ('NELSON SANTOS','59.130.446/0001-83',3);
 
 SELECT * FROM cliente;
 
