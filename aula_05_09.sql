@@ -2,8 +2,48 @@ DROP DATABASE IF EXISTS rastreabilidade;
 CREATE DATABASE rastreabilidade;
 USE rastreabilidade;
 
+CREATE TABLE pais (
+id INT NOT NULL UNIQUE AUTO_INCREMENT
+,nome VARCHAR(100) NOT NULL
+,CONSTRAINT pk_pais PRIMARY KEY (id)
+);
+
+INSERT INTO pais (nome) VALUES ('BRASIL');
+
+
+CREATE TABLE estado (
+id INT NOT NULL UNIQUE AUTO_INCREMENT
+,nome VARCHAR(100) NOT NULL
+,sigla CHAR(2) NOT NULL
+,pais_id INT NOT NULL
+,CONSTRAINT pk_estado PRIMARY KEY (id)
+,CONSTRAINT fk_estado_pais FOREIGN KEY (pais_id) REFERENCES pais (id)
+,CONSTRAINT estado_unica UNIQUE(nome, pais_id)
+);
+
+INSERT INTO estado (nome,sigla,pais_id) VALUES ('PARANÁ','PR',1);
+INSERT INTO estado (nome,sigla,pais_id) VALUES ('SÃO PAULO','SP',1);
+INSERT INTO estado (nome,sigla,pais_id) VALUES ('RIO DE JANEIRO','RJ',1);
+
+SELECT * FROM estado;
+
+CREATE TABLE cidade(
+id INT NOT NULL UNIQUE AUTO_INCREMENT
+,nome VARCHAR(100) NOT NULL 
+,estado_id INT NOT NULL 
+,CONSTRAINT pk_cidade PRIMARY KEY (id)
+,CONSTRAINT fk_cidade_estado FOREIGN KEY (estado_id) REFERENCES estado (id)
+,CONSTRAINT cidade_unica UNIQUE(nome, estado_id)
+);
+
+INSERT INTO cidade (nome,estado_id) VALUES ('PARANAVAÍ',1);
+INSERT INTO cidade (nome,estado_id) VALUES ('MARINGA',1);
+INSERT INTO cidade (nome,estado_id) VALUES ('CURITIBA',1);
+
+SELECT * FROM cidade;
+
 CREATE TABLE fornecedor (
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE 
+id INT NOT NULL AUTO_INCREMENT UNIQUE 
 ,nome VARCHAR(100) NOT NULL  UNIQUE
 ,tipo_fruta VARCHAR(30) NOT NULL  
 ,produtos_utilizados VARCHAR(300) NOT NULL  
@@ -66,34 +106,10 @@ INSERT INTO cliente (nome_completo,cnpj) VALUES ('NELSON SANTOS','59.130.446/000
 
 SELECT * FROM cliente;
 
-CREATE TABLE cidade(
-id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT
-,nome VARCHAR(100) NOT NULL 
-);
 
-INSERT INTO cidade (nome) VALUES ('PARANAVAÍ');
-INSERT INTO cidade (nome) VALUES ('MARINGA');
-INSERT INTO cidade (nome) VALUES ('CURITIBA');
-
-SELECT * FROM cidade;
-
-CREATE TABLE estado (
-id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT
-,nome VARCHAR(100) NOT NULL
-,sigla CHAR(2) NOT NULL
-);
-
-INSERT INTO estado (nome,sigla) VALUES ('PARANÁ','PR');
-INSERT INTO estado (nome,sigla) VALUES ('SÃO PAULO','SP');
-INSERT INTO estado (nome,sigla) VALUES ('RIO DE JANEIRO','RJ');
-
-SELECT * FROM estado;
-
-CREATE TABLE pais (
-id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT
-,nome VARCHAR(100) NOT NULL
-);
-
-INSERT INTO pais (nome) VALUES ('BRASIL');
-
-SELECT * FROM pais;
+SELECT 	
+	estado.id 'ID ESTADO'
+    ,estado.nome 'NOME ESTADO'
+    ,estado.sigla 'SIGLA ESTADO'
+FROM estado 
+JOIN cidade ON estado.pais_id = estado.id
